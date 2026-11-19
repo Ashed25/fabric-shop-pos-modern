@@ -7,7 +7,8 @@
 
 Point of sale for a Myanmar clothing & fabric shop. It runs on an Android tablet with a barcode scanner, works offline, is Burmese first, and sells fabric in traditional units (ကိုက် · တောင် · ထွာ · မိုက် · လက်မ · လက်မဝက်).
 
-- **Live app (original design):** https://ashed25.github.io/u-ahi-fabric-pos/
+- **Live app:** https://ashed25.github.io/fabric-shop-pos-modern/
+- **Original design:** https://ashed25.github.io/u-ahi-fabric-pos/
 - **Picture guide for sellers (Burmese, one A4 page):** https://ashed25.github.io/u-ahi-fabric-pos/guide.html
 - **မြန်မာလို လမ်းညွှန်:** [README.my.md](README.my.md)
 
