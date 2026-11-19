@@ -1,8 +1,13 @@
-# ဦးအဟိ အထည်ဆိုင် — POS
+# ဦးအဟိ အထည်ဆိုင် — POS (Modern edition)
+
+> Same system as the original POS (same features, data model and tests), with a new modern design:
+> indigo/violet brand gradient, cool zinc neutrals, frosted headers, rounded cards, dashboard menu and a dark lock screen.
+> The design is set in `src/index.css` (`@theme` remaps the colour palette, radii and shadows) and `src/ui/kit.tsx`.
+> Data is stored separately from the original app (database `fabric-pos-modern`); backups from the original app can be restored here.
 
 Point of sale for a Myanmar clothing & fabric shop. It runs on an Android tablet with a barcode scanner, works offline, is Burmese first, and sells fabric in traditional units (ကိုက် · တောင် · ထွာ · မိုက် · လက်မ · လက်မဝက်).
 
-- **Live app:** https://ashed25.github.io/u-ahi-fabric-pos/
+- **Live app (original design):** https://ashed25.github.io/u-ahi-fabric-pos/
 - **Picture guide for sellers (Burmese, one A4 page):** https://ashed25.github.io/u-ahi-fabric-pos/guide.html
 - **မြန်မာလို လမ်းညွှန်:** [README.my.md](README.my.md)
 
