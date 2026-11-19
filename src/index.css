@@ -1,0 +1,130 @@
+@import 'tailwindcss';
+@import '@fontsource/noto-sans-myanmar/400.css';
+@import '@fontsource/noto-sans-myanmar/700.css';
+
+/*
+ * Modern theme. Screens keep their Tailwind class names; the palette is remapped here so every screen
+ * picks up the new look: blue -> indigo/violet brand, slate -> cool zinc, green -> emerald, red -> rose.
+ */
+@theme {
+  --font-sans: 'Inter', 'Segoe UI Variable Text', 'Segoe UI', 'Noto Sans Myanmar', system-ui, sans-serif;
+
+  --color-blue-50: oklch(96.6% 0.02 285);
+  --color-blue-100: oklch(93.4% 0.04 285);
+  --color-blue-200: oklch(87.5% 0.075 285);
+  --color-blue-300: oklch(79% 0.125 285);
+  --color-blue-400: oklch(68.5% 0.185 285);
+  --color-blue-500: oklch(60% 0.225 285);
+  --color-blue-600: oklch(53.5% 0.25 285);
+  --color-blue-700: oklch(48.5% 0.245 285);
+  --color-blue-800: oklch(43% 0.215 285);
+  --color-blue-900: oklch(36% 0.165 285);
+  --color-blue-950: oklch(26% 0.11 285);
+
+  --color-slate-50: oklch(98.4% 0.002 286);
+  --color-slate-100: oklch(96.5% 0.004 286);
+  --color-slate-200: oklch(92.2% 0.006 286);
+  --color-slate-300: oklch(87% 0.009 286);
+  --color-slate-400: oklch(70.5% 0.015 286);
+  --color-slate-500: oklch(55.2% 0.016 286);
+  --color-slate-600: oklch(44.2% 0.017 286);
+  --color-slate-700: oklch(37% 0.013 286);
+  --color-slate-800: oklch(27.4% 0.008 286);
+  --color-slate-900: oklch(21% 0.008 286);
+  --color-slate-950: oklch(14.5% 0.006 286);
+
+  --color-green-50: oklch(97.9% 0.021 166);
+  --color-green-100: oklch(95% 0.052 163);
+  --color-green-200: oklch(90.5% 0.093 164);
+  --color-green-300: oklch(84.5% 0.143 165);
+  --color-green-400: oklch(76.5% 0.177 163);
+  --color-green-500: oklch(69.6% 0.17 162);
+  --color-green-600: oklch(59.6% 0.145 163);
+  --color-green-700: oklch(52% 0.125 165);
+  --color-green-800: oklch(43.2% 0.095 167);
+  --color-green-900: oklch(37.8% 0.077 169);
+  --color-green-950: oklch(26.2% 0.051 173);
+
+  --color-red-50: oklch(96.9% 0.015 12);
+  --color-red-100: oklch(94.1% 0.03 12);
+  --color-red-200: oklch(89.2% 0.058 10);
+  --color-red-300: oklch(81% 0.117 12);
+  --color-red-400: oklch(71.2% 0.194 13);
+  --color-red-500: oklch(64.5% 0.246 16);
+  --color-red-600: oklch(58.6% 0.253 18);
+  --color-red-700: oklch(51.4% 0.222 17);
+  --color-red-800: oklch(45.5% 0.188 14);
+  --color-red-900: oklch(41% 0.159 10);
+  --color-red-950: oklch(27.1% 0.105 12);
+
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.375rem;
+  --radius-3xl: 1.875rem;
+
+  --shadow-sm: 0 1px 2px rgb(24 24 40 / 0.04), 0 1px 3px rgb(24 24 40 / 0.06);
+  --shadow: 0 2px 4px rgb(24 24 40 / 0.04), 0 6px 16px rgb(24 24 40 / 0.07);
+  --shadow-xl: 0 12px 24px rgb(24 24 40 / 0.08), 0 32px 64px rgb(24 24 40 / 0.14);
+}
+
+/* In the base layer so per-element utilities (min-h-20, text-4xl …) can override them. */
+@layer base {
+  /* Everything is sized in rem: this one value scales the whole app. Large-text mode is for elderly users. */
+  html {
+    font-size: 16px;
+  }
+  html.large-text {
+    font-size: 20px;
+  }
+  body {
+    @apply bg-slate-100 text-slate-900 antialiased;
+    background-image: radial-gradient(60rem 30rem at 100% -10%, var(--color-blue-100), transparent 70%);
+    background-attachment: fixed;
+    line-height: 1.6; /* Myanmar script needs extra line height */
+  }
+  h1,
+  h2 {
+    letter-spacing: -0.015em;
+  }
+  button {
+    @apply min-h-12 cursor-pointer select-none;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-blue-500;
+  }
+}
+
+/* Label printing */
+@media print {
+  body {
+    background: white;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-page {
+    break-after: page;
+  }
+  /* While a receipt is open, print only the receipt (80 mm wide, fits A4 too). */
+  body:has(> .receipt-print) > :not(.receipt-print) {
+    display: none !important;
+  }
+  .receipt-print {
+    display: block !important;
+    width: 80mm;
+    max-width: 100%;
+  }
+}
+@media screen {
+  .receipt-print {
+    display: none;
+  }
+}
+@media screen {
+  .label-box {
+    outline: 1px dashed #94a3b8;
+  }
+  .print-page {
+    margin: 8px;
+  }
+}

@@ -1,0 +1,31 @@
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
+import { VitePWA } from 'vite-plugin-pwa'
+
+export default defineConfig({
+  // GitHub Pages serves from /<repo>/; set by the deploy workflow.
+  base: process.env.BASE_PATH ?? '/',
+  plugins: [
+    react(),
+    tailwindcss(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,woff,woff2,png,jpg,svg,wasm}'],
+        navigateFallbackDenylist: [/guide\.html$/], // the printable guide is its own page, not the app
+      },
+      manifest: {
+        name: 'ဦးအဟိ အထည်ဆိုင်',
+        short_name: 'ဦးအဟိ POS',
+        lang: 'my',
+        display: 'standalone',
+        orientation: 'any',
+        background_color: '#ffffff',
+        theme_color: '#4f46e5',
+        icons: [{ src: 'icon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any' }],
+      },
+    }),
+  ],
+  test: { environment: 'node', include: ['src/**/*.test.ts'] },
+})
