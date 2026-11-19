@@ -15,7 +15,7 @@ test('sell from the open roll, a % remnant and a whole remnant; stock follows', 
 
   // Silk: two rolls, the open (shorter) one is chosen by default
   await scan(page, SILK)
-  await expect(page.getByRole('button', { name: /လိပ် #2: 12 ကိုက် 1 တောင်/ })).toHaveClass(/from-blue-500/)
+  await expect(page.getByRole('button', { name: /လိပ် #2: 12 ကိုက် 1 တောင်/ })).toHaveClass(/bg-blue-600/)
   await page.getByRole('button', { name: '1 ကိုက်', exact: true }).click()
   await page.getByRole('button', { name: 'အိုကေ' }).click()
 

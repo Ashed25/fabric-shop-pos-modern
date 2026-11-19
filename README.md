@@ -1,8 +1,8 @@
 # ဦးအဟိ အထည်ဆိုင် — POS (Modern edition)
 
 > Same system as the original POS (same features, data model and tests), with a new modern design:
-> indigo/violet brand gradient, cool zinc neutrals, frosted headers, rounded cards, dashboard menu and a dark lock screen.
-> The design is set in `src/index.css` (`@theme` remaps the colour palette, radii and shadows) and `src/ui/kit.tsx`.
+> a fixed blue sidebar menu grouped into sections, a dark-blue top bar, blue title bars, flat buttons and a cool grey background.
+> The design is set in `src/index.css` (`@theme` remaps the colour palette and radii), `src/ui/kit.tsx` and `src/ui/Shell.tsx` (sidebar + top bar).
 > Data is stored separately from the original app (database `fabric-pos-modern`); backups from the original app can be restored here.
 
 Point of sale for a Myanmar clothing & fabric shop. It runs on an Android tablet with a barcode scanner, works offline, is Burmese first, and sells fabric in traditional units (ကိုက် · တောင် · ထွာ · မိုက် · လက်မ · လက်မဝက်).

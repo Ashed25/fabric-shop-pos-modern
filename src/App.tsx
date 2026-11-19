@@ -30,6 +30,7 @@ import { Users } from './screens/Users'
 import { LockScreen, OwnerGate, SessionProvider, Setup, useAutoLock, useSession } from './session'
 import { Btn, Screen } from './ui/kit'
 import { go, useRoute } from './ui/router'
+import { Shell } from './ui/Shell'
 
 // Excel library is large: load only when the Import screen opens.
 const Import = lazy(() => import('./screens/Import').then((m) => ({ default: m.Import })))
@@ -64,15 +65,17 @@ function Gate() {
   const need = NEED[path[0] ?? ''] ?? 'owner'
   if (!atLeast(user, need))
     return (
-      <Screen title={t('lock.noAccess')}>
-        <div className="mx-auto max-w-xl space-y-4 text-center text-2xl">
-          <p>{t('lock.noAccessHint')}</p>
-          <Btn onClick={() => go('#/')}>{t('lock.toSell')}</Btn>
-        </div>
-      </Screen>
+      <Shell>
+        <Screen title={t('lock.noAccess')}>
+          <div className="mx-auto max-w-xl space-y-4 text-center text-2xl">
+            <p>{t('lock.noAccessHint')}</p>
+            <Btn onClick={() => go('#/')}>{t('lock.toSell')}</Btn>
+          </div>
+        </Screen>
+      </Shell>
     )
   const page = route(path)
-  return need === 'owner' ? <OwnerGate>{page}</OwnerGate> : page
+  return <Shell>{need === 'owner' ? <OwnerGate>{page}</OwnerGate> : page}</Shell>
 }
 
 function route(path: string[]): ReactNode {

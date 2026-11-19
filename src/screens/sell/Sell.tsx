@@ -15,10 +15,8 @@ import { Btn, Modal, inputCls, toInt } from '../../ui/kit'
 import { roundFraction } from '../../core/pricing'
 import { atLeast } from '../../db/users'
 import { useSession } from '../../session'
-import { SyncBadge } from '../../sync/runner'
 import { Photo } from '../../ui/photo'
 import { ReceiptModal } from '../../ui/ReceiptModal'
-import { go } from '../../ui/router'
 import { beepError, beepOk } from '../../ui/sound'
 import { useScanner } from '../../ui/useScanner'
 import { LengthEntry } from './LengthEntry'
@@ -68,7 +66,7 @@ function SellScreen({ settings }: { settings: Settings }) {
     return new Map(ps.filter(Boolean).map((p) => [p!.id!, p!.photo]))
   }, [lines.map((l) => l.productId).join()])
   const held = useLiveQuery(() => db.parked.orderBy('at').toArray(), [])
-  const { user, lock, approve } = useSession()
+  const { user, approve } = useSession()
   // Whole-sale discount: managers/owners only; % is rounded like fabric prices.
   const [discount, setDiscount] = useState<{ pct?: number; amountKs?: number; by: number }>()
   const [discountOpen, setDiscountOpen] = useState(false)
@@ -157,7 +155,7 @@ function SellScreen({ settings }: { settings: Settings }) {
 
   if (done)
     return (
-      <div className="flex min-h-dvh flex-col items-center justify-center gap-6 bg-green-50 p-6 text-center">
+      <div className="flex min-h-full flex-col items-center justify-center gap-6 bg-green-50 p-6 text-center">
         <div className="text-5xl font-bold text-green-800">✓ {t(done.practice ? 'sell.donePractice' : 'sell.done')}</div>
         {!done.practice && <div className="text-2xl">{t('sell.saleNo', { id: done.saleId })}</div>}
         <div className="text-3xl">
@@ -190,12 +188,12 @@ function SellScreen({ settings }: { settings: Settings }) {
     )
 
   return (
-    <div className="flex h-dvh flex-col">
-      <header className="flex items-center gap-1.5 border-b border-slate-200/70 bg-white/80 px-3 py-2 backdrop-blur-xl">
-        <span aria-hidden className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-linear-to-br from-blue-500 to-blue-800 text-xl shadow-md shadow-blue-600/25">
-          🧵
+    <div className="flex h-full flex-col">
+      <header className="flex min-h-13 items-center gap-1.5 bg-blue-500 pr-3 text-white shadow-sm">
+        <span aria-hidden className="flex w-13 shrink-0 items-center justify-center self-stretch bg-blue-700 text-xl">
+          🛒
         </span>
-        <h1 className="min-w-0 flex-1 truncate text-lg font-bold text-slate-900 sm:text-xl">{settings.shopName}</h1>
+        <h1 className="min-w-0 flex-1 truncate pl-2 text-xl font-bold">{t('nav.sell')}</h1>
         {lines.length > 0 && (
           <Btn
             variant="plain"
@@ -211,14 +209,6 @@ function SellScreen({ settings }: { settings: Settings }) {
             {t('sell.held', { count: held!.length })}
           </Btn>
         )}
-        <SyncBadge />
-        <span className="hidden rounded-full bg-slate-100 px-3 py-1 text-base text-slate-700 md:inline">👤 {user?.name}</span>
-        <Btn variant="plain" className="min-h-10 px-3 text-base" aria-label={t('sell.menu')} onClick={() => go('#/menu')}>
-          ☰<span className="hidden sm:inline"> {t('sell.menu')}</span>
-        </Btn>
-        <Btn variant="plain" className="min-h-10 px-3 text-base" aria-label={t('lock.lock')} onClick={lock}>
-          🔒
-        </Btn>
       </header>
       {settings.practiceMode && <div className="bg-orange-500 py-2 text-center text-2xl font-bold text-white">{t('sell.practiceBanner')}</div>}
       {settings.deviceRole === 'viewer' && <div className="bg-sky-200 py-2 text-center text-xl">👁 {t('cloud.viewerBanner')}</div>}
@@ -257,12 +247,12 @@ function SellScreen({ settings }: { settings: Settings }) {
       <div className="grid min-h-0 flex-1 grid-cols-[minmax(0,1fr)] grid-rows-[1fr_auto] lg:grid-cols-[minmax(0,1fr)_23rem] lg:grid-rows-1">
         <section className="flex min-h-0 flex-col">
           <div
-            className={`m-3 rounded-2xl border-2 border-dashed p-3 text-center text-lg font-bold transition lg:text-xl ${flash ? (flash.ok ? 'border-green-300 bg-green-50 text-green-800' : 'border-red-300 bg-red-50 text-red-800') : 'border-blue-200 bg-white/70 text-blue-700'}`}
+            className={`m-3 rounded-2xl border-2 border-dashed p-3 text-center text-lg font-bold lg:text-xl ${flash ? (flash.ok ? 'border-green-300 bg-green-50 text-green-800' : 'border-red-300 bg-red-50 text-red-800') : 'border-blue-300 bg-white text-blue-700'}`}
             data-testid="scan-area"
           >
             {flash?.text ?? `▮▯▮ ${t('sell.scanHere')}`}
           </div>
-          <ul className="mx-3 mb-3 flex-1 divide-y divide-slate-100 overflow-auto rounded-2xl bg-white shadow-sm ring-1 ring-slate-200/70 empty:bg-transparent empty:shadow-none empty:ring-0" data-testid="cart">
+          <ul className="mx-3 mb-3 flex-1 divide-y divide-slate-100 overflow-auto rounded-lg border border-slate-200 bg-white shadow-sm empty:border-0 empty:bg-transparent empty:shadow-none" data-testid="cart">
             {shown.map((l) => (
               <li key={l.key}>
                 <button className="flex w-full items-center gap-3 px-3 py-2.5 text-left transition hover:bg-slate-50" onClick={() => setEditKey(l.key)}>
@@ -289,9 +279,8 @@ function SellScreen({ settings }: { settings: Settings }) {
           </ul>
         </section>
 
-        <aside className="flex flex-col gap-2 border-t border-slate-200/70 bg-white/80 p-3 backdrop-blur-xl lg:m-3 lg:ml-0 lg:gap-3 lg:rounded-3xl lg:border lg:shadow-sm">
-          <div className="relative overflow-hidden rounded-2xl bg-linear-to-br from-blue-600 to-blue-950 px-4 py-2 text-right text-white shadow-lg shadow-blue-900/20 lg:py-4">
-            <div aria-hidden className="absolute -top-10 -left-8 h-28 w-28 rounded-full bg-fuchsia-400/25 blur-2xl" />
+        <aside className="flex flex-col gap-2 border-t border-slate-200 bg-white p-3 lg:m-3 lg:ml-0 lg:gap-3 lg:rounded-lg lg:border lg:shadow-sm">
+          <div className="relative rounded-lg bg-blue-700 px-4 py-2 text-right text-white lg:py-4">
             <div className="relative flex items-baseline justify-end gap-3 lg:block">
               <span className="text-base text-blue-200">{t('pay.total')}</span>
               <div className="text-4xl font-bold tabular-nums lg:text-5xl" data-testid="total">

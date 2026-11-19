@@ -4,13 +4,10 @@ import { dateKey, yangonMidnight } from '../core/fy'
 import { go } from './router'
 
 const variants = {
-  primary:
-    'bg-linear-to-br from-blue-500 to-blue-700 text-white shadow-md shadow-blue-600/25 hover:brightness-110 disabled:from-slate-300 disabled:to-slate-300 disabled:shadow-none',
-  ok: 'bg-linear-to-br from-green-500 to-green-700 text-white shadow-md shadow-green-600/25 hover:brightness-110 disabled:from-slate-300 disabled:to-slate-300 disabled:shadow-none',
-  danger:
-    'bg-linear-to-br from-red-500 to-red-700 text-white shadow-md shadow-red-600/25 hover:brightness-110 disabled:from-slate-300 disabled:to-slate-300 disabled:shadow-none',
-  plain:
-    'bg-white text-slate-800 ring-1 ring-slate-200 shadow-sm hover:bg-slate-50 hover:ring-slate-300 disabled:text-slate-400 disabled:shadow-none',
+  primary: 'bg-blue-600 text-white shadow-sm hover:bg-blue-700 active:bg-blue-800 disabled:bg-slate-300 disabled:shadow-none',
+  ok: 'bg-green-600 text-white shadow-sm hover:bg-green-700 active:bg-green-800 disabled:bg-slate-300 disabled:shadow-none',
+  danger: 'bg-red-600 text-white shadow-sm hover:bg-red-700 active:bg-red-800 disabled:bg-slate-300 disabled:shadow-none',
+  plain: 'bg-white text-slate-700 border border-slate-300 shadow-sm hover:bg-slate-50 active:bg-slate-100 disabled:text-slate-400 disabled:shadow-none',
 }
 
 export function Btn({
@@ -20,7 +17,7 @@ export function Btn({
 }: ButtonHTMLAttributes<HTMLButtonElement> & { variant?: keyof typeof variants }) {
   // Default text-xl only when the caller sets no size: two text-* classes would fight.
   const size = /\btext-(xs|sm|base|lg|xl|\dxl)\b/.test(className) ? '' : 'text-lg'
-  return <button {...p} className={`rounded-xl px-4 font-bold transition duration-150 active:scale-[0.97] disabled:active:scale-100 ${size} ${variants[variant]} ${className}`} />
+  return <button {...p} className={`rounded-lg px-4 font-bold transition-colors ${size} ${variants[variant]} ${className}`} />
 }
 
 export function Screen({
@@ -36,17 +33,17 @@ export function Screen({
 }) {
   const { t } = useTranslation()
   return (
-    <div className="flex min-h-dvh flex-col">
-      <header className="no-print sticky top-0 z-10 flex flex-wrap items-center gap-2 border-b border-slate-200/70 bg-white/75 px-3 py-2 backdrop-blur-xl sm:px-5">
+    <div className="flex min-h-full flex-col">
+      <header className="no-print sticky top-0 z-10 flex flex-wrap items-center gap-2 bg-blue-500 py-1.5 pr-3 text-white shadow-sm">
         {back !== null && (
           <button
-            className="min-h-10 shrink-0 rounded-full bg-slate-100 px-3.5 text-base font-bold text-slate-700 transition hover:bg-slate-200"
+            className="-my-1.5 min-h-13 shrink-0 bg-blue-700 px-4 text-base font-bold transition-colors hover:bg-blue-800"
             onClick={() => go(back)}
           >
             ← {t('common.back')}
           </button>
         )}
-        <h1 className="min-w-32 flex-1 truncate text-xl font-bold text-slate-900">{title}</h1>
+        <h1 className="min-w-32 flex-1 truncate pl-2 text-xl font-bold">{title}</h1>
         {actions}
       </header>
       <main className="flex-1 p-4 sm:p-6">{children}</main>
@@ -65,14 +62,14 @@ export function Field({ label, children, hint }: { label: string; children: Reac
 }
 
 export const inputCls =
-  'w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-lg outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100'
+  'w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-lg outline-none transition focus:border-blue-500 focus:ring-3 focus:ring-blue-100'
 
 export function Modal({ children, onClose }: { children: ReactNode; onClose?: () => void }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/40 p-4 backdrop-blur-sm" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 p-4" onClick={onClose}>
       <div
         role="dialog"
-        className="max-h-[90dvh] w-full max-w-xl overflow-auto rounded-3xl bg-white p-6 shadow-xl ring-1 ring-slate-900/5"
+        className="max-h-[90dvh] w-full max-w-xl overflow-auto rounded-lg border-t-4 border-blue-600 bg-white p-6 shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
         {children}
@@ -90,7 +87,7 @@ export function DateNav(p: { label: string; value: number; onPick: (ms: number) 
       <Btn variant="plain" onClick={p.onPrev}>
         ◀
       </Btn>
-      <label className="relative flex min-h-12 flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl bg-white px-2 text-center text-xl font-bold shadow-sm ring-1 ring-slate-200">
+      <label className="relative flex min-h-12 flex-1 cursor-pointer items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-2 text-center text-xl font-bold shadow-sm">
         <span data-testid="period">{p.label}</span>
         <span aria-hidden>📅</span>
         {/* Invisible input over the label: a tap anywhere opens the native calendar (showPicker for desktop browsers). */}

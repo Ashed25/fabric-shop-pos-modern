@@ -77,7 +77,7 @@ export function PinPad({ onPin, error }: { onPin: (pin: string) => void; error?:
         {[0, 1, 2, 3].map((i) => (
           <span
             key={i}
-            className={`h-4 w-4 rounded-full transition duration-200 ${i < pin.length ? 'scale-125 bg-linear-to-br from-blue-500 to-blue-700 shadow shadow-blue-500/40' : 'bg-slate-200'}`}
+            className={`h-4 w-4 rounded-full transition duration-200 ${i < pin.length ? 'scale-125 bg-blue-600' : 'bg-slate-200'}`}
           />
         ))}
       </div>
@@ -135,17 +135,15 @@ export function LockScreen() {
   const [error, setError] = useState('')
   const guard = usePinGuard()
   return (
-    <div className="relative flex min-h-dvh items-center justify-center overflow-hidden bg-slate-950 p-4">
-      <div aria-hidden className="absolute -top-40 -left-32 h-[28rem] w-[28rem] rounded-full bg-blue-600/40 blur-3xl" />
-      <div aria-hidden className="absolute -right-24 -bottom-40 h-[26rem] w-[26rem] rounded-full bg-fuchsia-500/25 blur-3xl" />
-      <div className="relative w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl shadow-black/40 sm:p-8">
-      <div className="mb-6 text-center">
-        <div aria-hidden className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-linear-to-br from-blue-500 to-blue-800 text-3xl shadow-lg shadow-blue-600/30">
-          🧵
-        </div>
-        <h1 className="text-3xl font-bold text-slate-900">{settings?.shopName}</h1>
-        <p className="text-lg text-slate-500">{t('lock.enterPin')}</p>
+    <div className="flex min-h-dvh items-center justify-center bg-linear-to-b from-blue-600 to-blue-800 p-4">
+      <div className="w-full max-w-md overflow-hidden rounded-xl bg-white shadow-2xl shadow-blue-950/40">
+      <div className="bg-blue-800 px-6 py-4 text-center text-white">
+        <h1 className="text-2xl font-bold">
+          🧵 {settings?.shopName} <span className="font-normal text-blue-200">POS</span>
+        </h1>
       </div>
+      <div className="p-6 sm:p-8">
+      <p className="mb-5 text-center text-lg text-slate-600">{t('lock.enterPin')}</p>
       {guard.waitS > 0 ? (
         <p className="rounded-xl bg-red-100 p-4 text-2xl font-bold text-red-900">{t('lock.wait', { s: guard.waitS })}</p>
       ) : (
@@ -162,6 +160,7 @@ export function LockScreen() {
           }}
         />
       )}
+      </div>
       </div>
     </div>
   )
@@ -204,7 +203,7 @@ export function OwnerGate({ children }: { children: ReactNode }) {
   const [error, setError] = useState('')
   if (ownerOk) return children
   return (
-    <div className="flex min-h-dvh items-center justify-center p-4">
+    <div className="flex min-h-full items-center justify-center p-4">
       <form
         className="w-full max-w-md space-y-4 rounded-3xl bg-white p-6 shadow-xl ring-1 ring-slate-900/5 sm:p-8"
         onSubmit={async (e) => {
